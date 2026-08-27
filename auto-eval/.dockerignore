@@ -1,7 +1,8 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-.benchmarks/
-reports/
+# 排除报告产物（每次运行新生成的 json/txt），保留 report.py 源码
+reports/*.json
+reports/*.txt
 .dockerignore
 Dockerfile
