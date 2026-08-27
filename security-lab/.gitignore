@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.benchmarks/
+# 报告产物（每次运行新生成的 json/txt）
+reports/*.json
+reports/*.txt
+# 离线安装用的 wheels（构建产物，不入库）
+wheels/

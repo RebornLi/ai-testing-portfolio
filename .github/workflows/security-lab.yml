@@ -1,0 +1,28 @@
+name: security-lab
+
+on:
+  push:
+    paths:
+      - 'security-lab/**'
+  pull_request:
+    paths:
+      - 'security-lab/**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉代码
+        uses: actions/checkout@v4
+
+      - name: 构建 Docker 镜像（离线 wheels）
+        working-dir: security-lab
+        run: docker build -t security-lab:test .
+
+      - name: 跑全量安全测试（CI 门禁）
+        working-dir: security-lab
+        run: docker run --rm security-lab:test pytest tests/ -q
+
+      - name: 一键安全审计入口（三维度）
+        working-dir: security-lab
+        run: docker run --rm security-lab:test python run_evaluation.py
