@@ -156,18 +156,28 @@ class MockVectorStore:
 
 
 class FAISSVectorStore:
-    """FAISS 封装（lazy）。认知边界：API 名以官方文档为准。"""
+    """FAISS 封装（lazy）。
+
+    ⚠️ 认知边界（已实测，2026-08-28 修正）：
+    - faiss 1.15 已移除 `IndexFlatCosine`（旧版只有它）。
+    - 新版写法：先 `faiss.normalize_L2(vectors)`，再建 `IndexFlatIP`
+      （归一化后，内积 = 余弦相似）。这是新版 FAISS 的余弦检索标准姿势。
+    - 索引只在第一次 add 时创建一次；之后 add 追加，覆盖不上。
+    """
     def __init__(self, dim=4096):
         self.dim = dim
-        self._index = None
+        self._index = None       # lazy：add 时才 import 并建索引，测不到就走 Mock
         self.docs = {}
-        import faiss          # 这里才 import，测不到就用 Mock
-        self.faiss = faiss
+
+    def _ensure_index(self):
+        if self._index is None:
+            import faiss          # 这里才 import，测不到就用 Mock
+            self._index = faiss.IndexFlatIP(self.dim)   # 归一化后用 IP = 余弦
 
     def add(self, vectors, documents=None):
+        self._ensure_index()
         v = np.ascontiguousarray(vectors, dtype=np.float32)
-        self.faiss.normalize_L2(v)          # 余弦检索先归一化
-        self._index = self.faiss.IndexFlatCosine(self.dim)
+        faiss.normalize_L2(v)     # 余弦检索先归一化，再内积
         self._index.add(v)
         if documents:
             start = len(self.docs)
@@ -176,8 +186,9 @@ class FAISSVectorStore:
         return len(self.docs)
 
     def search(self, query, top_k=3):
+        self._ensure_index()
         q = np.ascontiguousarray([query], dtype=np.float32)
-        self.faiss.normalize_L2(q)
+        faiss.normalize_L2(q)
         k = min(top_k, self._index.ntotal)
         scores, ids = self._index.search(q, k)
         return [{"id": int(ids[0][j]), "score": float(scores[0][j])}
