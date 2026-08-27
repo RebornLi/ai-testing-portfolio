@@ -1,0 +1,28 @@
+name: auto-eval
+
+on:
+  push:
+    paths:
+      - 'auto-eval/**'
+  pull_request:
+    paths:
+      - 'auto-eval/**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉代码
+        uses: actions/checkout@v4
+
+      - name: 构建 Docker 镜像（离线 wheels）
+        working-dir: auto-eval
+        run: docker build -t auto-eval:test .
+
+      - name: 跑全量测试（CI 门禁）
+        working-dir: auto-eval
+        run: docker run --rm auto-eval:test pytest tests/ -q
+
+      - name: 一键评测入口（四维度）
+        working-dir: auto-eval
+        run: docker run --rm auto-eval:test python run_evaluation.py

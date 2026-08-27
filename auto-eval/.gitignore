@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.benchmarks/
+reports/
+# 离线安装用的 wheels（构建产物，不入库）
+wheels/
+# 运行时缓存（不入库）
+.deepeval/

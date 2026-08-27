@@ -1,0 +1,14 @@
+# W7 自动化评测流水线
+# 一键跑通：docker compose up（容器内执行全量测试 + 一键评测入口）
+# 结果落到宿主 ./reports/，方便在仓库里留痕。
+services:
+  auto-eval:
+    build: .
+    image: auto-eval:test
+    container_name: auto-eval
+    # 默认跑全量测试（CI 门禁）
+    command: ["pytest", "tests/", "-q"]
+    # 若想看一键评测报告，切到下面这行再 up：
+    # command: ["python", "run_evaluation.py", "--dir", "reports"]
+    volumes:
+      - ./reports:/app/reports
