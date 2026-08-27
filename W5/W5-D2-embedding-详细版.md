@@ -108,7 +108,8 @@ words = {
     "王子": [0.75, 0.05, 0.55],
     "平民": [0.30, 0.40, 0.10],
 }
-result = words["国王"] - words["男"] + words["女"]
+# 关键：转成 np.array 才能做向量加减（list 不能相减！）
+result = np.array(words["国王"]) - np.array(words["男"]) + np.array(words["女"])
 nearest = max(words, key=lambda k: cosine(result, words[k]))
 print(f"国王 - 男 + 女 最近的是: {nearest}")   # 期望：女王
 ```
