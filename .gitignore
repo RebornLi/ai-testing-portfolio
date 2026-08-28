@@ -1,0 +1,47 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 评测产物（每个 lab 的 reports/ 下 evaluation_*.json/.txt 为运行输出，非源码）
+auto-eval/reports/
+auto-eval/autoeval/reports/
+security-lab/reports/
+eval-lab/reports/
+rag-demo/reports/
+
+# deepeval 缓存
+.deepeval/
+
+# 环境变量与密钥
+.env
+.env.*
+*.key
+*.pem
+
+# 数据与缓存（大文件不上传）
+data/*.json
+data/*.csv
+*.db
+*.sqlite
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
