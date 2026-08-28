@@ -3,11 +3,10 @@
 指标 API：score() 返回 (score, passed, errors) 三元组。
 """
 import sys, os, time
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "system"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from agent import Memory, MemoryAgent
-from metrics import MemoryMetric, CostLatencyMetric
+from autoeval.agent import Memory, MemoryAgent
+from autoeval.metrics import MemoryMetric, CostLatencyMetric
 
 
 class RememberingPlanner:
@@ -70,7 +69,7 @@ def test_cost_latency_bad():
 
 def test_latency_realistic():
     """真实计时：sleep 0.05s 应在预算内。"""
-    with open(os.path.join(os.path.dirname(__file__), "..", "system", "tools.py")):
+    with open(os.path.join(os.path.dirname(__file__), "..", "autoeval", "tools.py")):
         pass
     t0 = time.time()
     time.sleep(0.05)

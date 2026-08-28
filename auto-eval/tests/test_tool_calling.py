@@ -3,11 +3,10 @@
 指标 API：score() 返回 (score, passed, errors) 三元组。
 """
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "system"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from agent import ReActAgent, DeterministicPlanner, LoopingPlanner
-from metrics import ToolCallingMetric, evaluate_dimensions
+from autoeval.agent import ReActAgent, DeterministicPlanner, LoopingPlanner
+from autoeval.metrics import ToolCallingMetric, evaluate_dimensions
 
 
 def build(steps, max_iter=10):

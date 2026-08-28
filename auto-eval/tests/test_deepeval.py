@@ -4,7 +4,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from metrics import DeepEvalMetric, evaluate_dimensions
+from autoeval.metrics import DeepEvalMetric, evaluate_dimensions
 
 
 def test_deepeval_keyword_hit():

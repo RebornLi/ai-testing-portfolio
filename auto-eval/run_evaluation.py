@@ -8,10 +8,11 @@
 这是 W7 工程化的门面：一条命令跑通全部评测。
 """
 import sys, os, argparse
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+# 本 CLI 与 evaluate.py、包 autoeval/ 同目录：加自己的目录进 sys.path。
+sys.path.insert(0, os.path.dirname(__file__))
 
 from evaluate import run_full_evaluation
-from reports.report import EvaluationReport
+from autoeval.reports.report import EvaluationReport
 
 
 def main():

@@ -4,12 +4,15 @@
 本模块负责"执行 + 打分"两件事，分离以便单元测试。
 """
 import sys, os
-# evaluate.py 位于 auto-eval/ 根级：system/ 在同一目录，无需 ".."
-# （测试文件在 tests/ 下才需要 "../system" 和 ".."）
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "system"))
 
-from agent import ReActAgent, DeterministicPlanner, Memory, MemoryAgent
-from metrics import (
+# evaluate.py 位于 auto-eval/ 根级。包 autoeval/ 与根同级：
+# 把本文件所在目录加进 sys.path，即可 `from autoeval.X import ...`。
+sys.path.insert(0, os.path.dirname(__file__))
+
+from autoeval.agent import (
+    ReActAgent, DeterministicPlanner, Memory, MemoryAgent,
+)
+from autoeval.metrics import (
     ToolCallingMetric, MemoryMetric, CostLatencyMetric, DeepEvalMetric,
 )
 
@@ -55,7 +58,7 @@ def run_full_evaluation():
 
     返回 report 对象的 dict 形式，便于测试断言（不写文件）。
     """
-    from reports.report import EvaluationReport
+    from autoeval.reports.report import EvaluationReport
 
     # 维度1：工具调用（好 agent，应通过）
     tc = run_tool_calling_case(
