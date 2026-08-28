@@ -5,7 +5,7 @@
 planner: callable(history, state) -> {"tool": (name, args)} 或 {"answer": text}
 max_iterations: 硬上限，超过则强终止（防止死循环）。
 """
-from tools import invoke_tool
+from autoeval.tools import invoke_tool
 
 
 class ToolCall:
