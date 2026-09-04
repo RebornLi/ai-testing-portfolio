@@ -45,3 +45,7 @@ Thumbs.db
 
 # 日志
 *.log
+
+# 杂项数据日志（非学习笔记，不入库）
+lizi.txt
+例子.txt
